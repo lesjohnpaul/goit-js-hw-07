@@ -1,26 +1,22 @@
 import { galleryItems } from './gallery-items.js';
+const galleryContainer = document.querySelector(".gallery");
 
-document.addEventListener('DOMContentLoaded', function () {
-    const galleryList = document.querySelector('.gallery');
+const galleryHTML = galleryItems.map(image => {
+  return `
+    <div class="gallery__item">
+      <a class="gallery__link" href="${image.original}">
+        <img
+          class="gallery__image"
+          src="${image.preview}"
+          alt="${image.description}"
+          title="${image.description}"
+        />
+      </a>
+    </div>
+  `;
+}).join("");
 
-    const createGallery = items => {
-        return items.map(({ preview, original, description }) => {
-            return `
-        <li class="gallery__item">
-          <a class="gallery__link" href="${original}">
-            <img class="gallery__image" src="${preview}" alt="${description}" />
-          </a>
-        </li>
-      `;
-        }).join('');
-    };
 
-    const photosMarkup = createGallery(galleryItems);
-    galleryList.innerHTML = photosMarkup;
-
-    // Initialize SimpleLightbox
-    const gallery = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 250
-    });
-});
+galleryContainer.innerHTML = galleryHTML;
+new SimpleLightbox(".gallery a", { captionDelay: 250 });
+console.log(galleryItems);
